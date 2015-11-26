@@ -18,7 +18,7 @@
   },
   "require": {
     "php": ">=5.5.0",
-    "laravel-doctrine/orm": "5.1.*",
+    "laravel-doctrine/orm": "1.0.*",
     "nesbot/carbon": "~1.19",
     "ramsey/uuid": "3.0.*"
   },
