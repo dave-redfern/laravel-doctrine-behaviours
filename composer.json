@@ -2,7 +2,7 @@
   "name": "somnambulist/laravel-doctrine-behaviours",
   "type": "library",
   "description": "Alternative Doctrine behaviours for laravel-doctrine extensions. Provides blamable, timestampable and universally identifiable.",
-  "keywords": [ "doctrine", "laravel", "doctrine-laravel" ],
+  "keywords": [ "doctrine", "laravel", "laravel-doctrine", "behaviours" ],
   "minimum-stability": "dev",
   "license": "MIT",
   "authors": [
