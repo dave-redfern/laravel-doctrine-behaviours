@@ -1,0 +1,28 @@
+{
+  "name": "somnambulist/laravel-doctrine-behaviours",
+  "type": "library",
+  "description": "Alternative Doctrine behaviours for laravel-doctrine extensions. Provides blamable, timestampable and universally identifiable.",
+  "keywords": [ "doctrine", "laravel", "doctrine-laravel" ],
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dave Redfern",
+      "email": "dave@scorpioframework.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Somnambulist\\Doctrine\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=5.5.0",
+    "laravel-doctrine/orm": "5.1.*",
+    "nesbot/carbon": "~1.19",
+    "ramsey/uuid": "3.0.*"
+  },
+  "require-dev": {
+
+  }
+}
