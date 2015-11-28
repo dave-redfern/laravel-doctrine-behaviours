@@ -30,6 +30,7 @@ To enable the behaviours, add each EventSubscriber to the config/doctrine.php fi
                     \Somnambulist\Doctrine\EventSubscribers\BlamableEventSubscriber::class,
                     \Somnambulist\Doctrine\EventSubscribers\TimestampableEventSubscriber::class,
                     \Somnambulist\Doctrine\EventSubscribers\UuidEventSubscriber::class,
+                    \Somnambulist\Doctrine\EventSubscribers\VersionableEventSubscriber::class,
                 ]
             ],
         ]
@@ -158,14 +159,33 @@ Be sure to add a UUID field definition to your entity mapping files:
 
 It is a good idea to add a unique constraint to the UUID field just in case.
 
+### Versionable
+
+Versionable adds a simple "version" property that is increment on each update. If it is not
+set to (int) 1 on prePersist, the value will be initialised. This can then be used keep track
+of the number of times an entity has been changed.
+
+Be sure to add the following to you mapping files:
+
+    fields:
+        version:
+            type: integer
+
 ### Others
 
 In addition to the main behaviours there are several additional contracts / traits:
 
  * Identifiable - adds id / getId
  * Nameable - adds name / getName / setName
+ * NumericallySortable - adds orderinal / getOrdinal / setOrdinal
+ * Publishable - adds publishedAt / getPublishedAt / setPublishedAt / isPublished / publishAt / unPublish
  * Trackable - Identifiable, Nameable, Blamable, Timestampable
  * GloballyTrackable - Identifiable, Nameable, Blamable, Timestampable, UniversallyIdentifiable
+
+NumericallySortable adds a simple "ordinal" field to allow records to be sorted by an incrementing
+integer value. This needs to be manually tracked in your entities e.g.: on add/remove against a colection
+add a "renumber" method call that will iterate and re-number the items in the collection. A simple
+CanRenumberCollection interface/trait is included but you may need something more sophisticated.
 
 Trackable / GloballyTrackable simply wrap up the other traits / contracts providing a convenient
 way to add everything either as an internal entity (Trackable) or a potentially externally facing
