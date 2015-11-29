@@ -49,6 +49,18 @@ Then to ensure Carbon is used in your entities, and the following to the types:
  * _Note:_ the type overrides are required when using TimestampableEventSubscriber.
  * _Note:_ these behaviours are intended to be used with meta-data files not annotations!
 
+### Repository Service Provider
+
+A Laravel service provider is included that allows defining repositories in a config file.
+Add the service provider to your main app.php - **after** the DoctrineServiceProvider.
+
+    \Somnambulist\Doctrine\Providers\RepositoryServiceProvider::class,
+
+Simply publish the vendors information, and a new config/repositories.php file will be added
+to your config folder.
+
+Add the repositories you want automatically binding to the container in this config file.
+
 ## Behaviours / Traits
 
 ### Blamable

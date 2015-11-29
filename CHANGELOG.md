@@ -1,6 +1,17 @@
 Change Log
 ==========
 
+2015-11-29 - 2
+--------------
+
+Added:
+
+ * config/repositories.php
+
+Changed:
+
+ * RepositoryServiceProvider is no longer abstract, has a config file
+
 2015-11-29
 ----------
 

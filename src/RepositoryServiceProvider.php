@@ -16,46 +16,58 @@
  * and is licensed under the MIT license.
  */
 
-namespace Somnambulist\Doctrine\Providers;
+namespace Somnambulist\Doctrine;
 
 use Illuminate\Support\ServiceProvider;
 
 /**
  * Class RepositoryServiceProvider
  *
- * Define repository definitions as an array and pass to registerRepositories:
- *
- * <code>
- * public function register()
- * {
- *     $repositories = [
- *         // [repository => '', entity => '', alias => '', 'tags' => [tags]],
- *         [
- *             'repository' => Repository\CustomerRepository::class,
- *             'entity'     => Repository\Customer::class,
- *             'alias'      => 'app.repository.customer',
- *             'tags'       => ['repository'],
- *         ],
- *     ];
- *     $this->registerRepositories($repositories);
- * }
- * </code>
- *
- * @package    App\Service\Tenant\Providers
- * @subpackage App\Service\Tenant\Providers\RepositoryServiceProvider
+ * @package    Somnambulist\Doctrine
+ * @subpackage Somnambulist\Doctrine\RepositoryServiceProvider
  * @author     Dave Redfern
  */
-abstract class RepositoryServiceProvider extends ServiceProvider
+class RepositoryServiceProvider extends ServiceProvider
 {
 
     /**
-     * Processes definitions to the IoC
+     * Perform post-registration booting of services.
      *
-     * @param array $definitions
+     * @return void
      */
-    protected function registerRepositories(array $definitions = [])
+    public function boot()
     {
-        foreach ($definitions as $details) {
+        $this->publishes([$this->getConfigPath() => config_path('repositories.php'),], 'config');
+    }
+
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->mergeConfig();
+
+        $this->registerRepositories();
+    }
+
+    /**
+     * Merge config
+     */
+    protected function mergeConfig()
+    {
+        $this->mergeConfigFrom($this->getConfigPath(), 'repositories');
+    }
+
+    /**
+     * Register any bound tenant aware repositories
+     *
+     * @return void
+     */
+    protected function registerRepositories()
+    {
+        foreach ($this->app->make('config')->get('repositories.repositories', []) as $details) {
             if (!isset($details['repository']) && !isset($details['entity'])) {
                 throw new \InvalidArgumentException(
                     sprintf('Failed to process repository data: missing repository/entity from definition')
@@ -74,5 +86,13 @@ abstract class RepositoryServiceProvider extends ServiceProvider
                 $this->app->tag($details['repository'], $details['tags']);
             }
         }
+    }
+
+    /**
+     * @return string
+     */
+    protected function getConfigPath()
+    {
+        return __DIR__ . '/../config/repositories.php';
     }
 }
