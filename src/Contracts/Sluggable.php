@@ -18,48 +18,25 @@
 
 namespace Somnambulist\Doctrine\Contracts;
 
-use Carbon\Carbon;
-
 /**
- * Interface Publishable
+ * Interface Sluggable
  *
  * @package    Somnambulist\Doctrine\Contracts
- * @subpackage Somnambulist\Doctrine\Contracts\Publishable
+ * @subpackage Somnambulist\Doctrine\Contracts\Sluggable
  * @author     Dave Redfern
  */
-interface Publishable
+interface Sluggable
 {
 
     /**
-     * @return boolean
+     * @return string
      */
-    public function isPublished();
+    public function getSlug();
 
     /**
-     * Publish at the date/time supplied, or "now"
-     *
-     * @param null|Carbon $date
+     * @param string $slug
      *
      * @return $this
      */
-    public function publishAt(Carbon $date = null);
-
-    /**
-     * Remove the publish date
-     *
-     * @return $this
-     */
-    public function unPublish();
-
-    /**
-     * @return Carbon
-     */
-    public function getPublishedAt();
-
-    /**
-     * @param Carbon $publishedAt
-     *
-     * @return $this
-     */
-    public function setPublishedAt(Carbon $publishedAt = null);
+    public function setSlug($slug);
 }

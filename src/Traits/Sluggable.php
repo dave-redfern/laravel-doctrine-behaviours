@@ -16,50 +16,40 @@
  * and is licensed under the MIT license.
  */
 
-namespace Somnambulist\Doctrine\Contracts;
-
-use Carbon\Carbon;
+namespace Somnambulist\Doctrine\Traits;
 
 /**
- * Interface Publishable
+ * Trait Sluggable
  *
- * @package    Somnambulist\Doctrine\Contracts
- * @subpackage Somnambulist\Doctrine\Contracts\Publishable
+ * @package    Somnambulist\Doctrine\Traits
+ * @subpackage Somnambulist\Doctrine\Traits\Sluggable
  * @author     Dave Redfern
  */
-interface Publishable
+trait Sluggable
 {
 
     /**
-     * @return boolean
+     * @var string
      */
-    public function isPublished();
+    protected $slug;
 
     /**
-     * Publish at the date/time supplied, or "now"
-     *
-     * @param null|Carbon $date
-     *
-     * @return $this
+     * @return string
      */
-    public function publishAt(Carbon $date = null);
+    public function getSlug()
+    {
+        return $this->slug;
+    }
 
     /**
-     * Remove the publish date
-     *
-     * @return $this
-     */
-    public function unPublish();
-
-    /**
-     * @return Carbon
-     */
-    public function getPublishedAt();
-
-    /**
-     * @param Carbon $publishedAt
+     * @param string $slug
      *
      * @return $this
      */
-    public function setPublishedAt(Carbon $publishedAt = null);
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
 }

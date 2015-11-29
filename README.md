@@ -28,6 +28,7 @@ To enable the behaviours, add each EventSubscriber to the config/doctrine.php fi
             'events' => [
                 'subscribers' => [
                     \Somnambulist\Doctrine\EventSubscribers\BlamableEventSubscriber::class,
+                    \Somnambulist\Doctrine\EventSubscribers\SluggableEventSubscriber::class,
                     \Somnambulist\Doctrine\EventSubscribers\TimestampableEventSubscriber::class,
                     \Somnambulist\Doctrine\EventSubscribers\UuidEventSubscriber::class,
                     \Somnambulist\Doctrine\EventSubscribers\VersionableEventSubscriber::class,
@@ -92,6 +93,37 @@ Be sure to update your mapping files to include the fields:
             length: 36
 
 These fields should be at least 36 characters long as UUIDs may be used with them.
+
+### Sluggable
+
+Sluggable adds getSlug / setSlug i.e. a URL friendly text representation of the name.
+A trait is included implementing the property and methods. In addition, there is an
+event subscriber that will set the slug from the name if the entity implements
+Nameable. This is checked on prePersist and preUpdate. Slugs are not updated if they
+already exist.
+
+Name to Slug is performed via the Laravel helper function: str_slug().
+
+Example usage:
+
+    use Somnambulist\Doctrine\Contracts\Sluggable as SluggableContract;
+    use Somnambulist\Doctrine\Traits\Sluggable;
+
+    class MyEntity implements SluggableContract
+    {
+        use Sluggable;
+    }
+
+Mapping file fields:
+
+    fields:
+        slug:
+            type: string
+            length: 255
+
+You should add a unique constraint to the slug since they should be unique. Otherwise,
+do not use the event subscriber and manage updating / checking manually before performing
+a Doctrine flush().
 
 ### Timestampable
 
