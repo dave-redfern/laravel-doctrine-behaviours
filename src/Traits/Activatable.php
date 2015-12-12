@@ -34,6 +34,14 @@ trait Activatable
     protected $isActive;
 
     /**
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
      * @return $this
      */
     public function activate()
