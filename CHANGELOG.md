@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+2016-02-13
+----------
+
+Changed:
+
+ * Fixed SluggableEventSubscriber missing interface
+
 2015-11-29 - 2
 --------------
 

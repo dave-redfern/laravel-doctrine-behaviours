@@ -33,7 +33,7 @@ use Doctrine\ORM\Events;
  * @subpackage Somnambulist\Doctrine\EventSubscribers\SluggableEventSubscriber
  * @author     Dave Redfern
  */
-class SluggableEventSubscriber
+class SluggableEventSubscriber implements EventSubscriber
 {
 
     /**
