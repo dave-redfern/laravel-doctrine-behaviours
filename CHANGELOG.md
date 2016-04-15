@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+2016-04-14
+----------
+
+Changed:
+
+ * Added compiles() to provider to allow main classes to be compiled in production
+
 2016-02-13
 ----------
 

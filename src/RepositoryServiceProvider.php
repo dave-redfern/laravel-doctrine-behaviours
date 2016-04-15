@@ -53,6 +53,52 @@ class RepositoryServiceProvider extends ServiceProvider
     }
 
     /**
+     * @return array
+     */
+    public static function compiles()
+    {
+        return [
+            __DIR__ . '/Contracts/Activatable.php',
+            __DIR__ . '/Contracts/Blamable.php',
+            __DIR__ . '/Contracts/CanRenumberCollection.php',
+            __DIR__ . '/Contracts/Identifiable.php',
+            __DIR__ . '/Contracts/Nameable.php',
+            __DIR__ . '/Contracts/NumericallySortable.php',
+            __DIR__ . '/Contracts/Publishable.php',
+            __DIR__ . '/Contracts/Sluggable.php',
+            __DIR__ . '/Contracts/Timestampable.php',
+            __DIR__ . '/Contracts/Versionable.php',
+            __DIR__ . '/Contracts/UniversallyIdentifiable.php',
+            __DIR__ . '/Contracts/GloballyTrackable.php',
+            __DIR__ . '/Contracts/Trackable.php',
+            __DIR__ . '/EventSubscribers/BlamableEventSubscriber.php',
+            __DIR__ . '/EventSubscribers/SluggableEventSubscriber.php',
+            __DIR__ . '/EventSubscribers/TimestampableEventSubscriber.php',
+            __DIR__ . '/EventSubscribers/UuidEventSubscriber.php',
+            __DIR__ . '/EventSubscribers/VersionableEventSubscriber.php',
+            __DIR__ . '/Traits/Activatable.php',
+            __DIR__ . '/Traits/Blamable.php',
+            __DIR__ . '/Traits/CanRenumberCollection.php',
+            __DIR__ . '/Traits/Identifiable.php',
+            __DIR__ . '/Traits/Nameable.php',
+            __DIR__ . '/Traits/NumericallySortable.php',
+            __DIR__ . '/Traits/Publishable.php',
+            __DIR__ . '/Traits/Sluggable.php',
+            __DIR__ . '/Traits/Timestampable.php',
+            __DIR__ . '/Traits/UniversallyIdentifiable.php',
+            __DIR__ . '/Traits/Versionable.php',
+            __DIR__ . '/Traits/GloballyTrackable.php',
+            __DIR__ . '/Traits/Trackable.php',
+            __DIR__ . '/Types/DateTimeType.php',
+            __DIR__ . '/Types/DateTimeTzType.php',
+            __DIR__ . '/Types/DateType.php',
+            __DIR__ . '/Types/TimeType.php',
+        ];
+    }
+
+
+
+    /**
      * Merge config
      */
     protected function mergeConfig()
