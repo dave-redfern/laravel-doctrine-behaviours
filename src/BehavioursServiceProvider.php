@@ -21,13 +21,13 @@ namespace Somnambulist\Doctrine;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Class RepositoryServiceProvider
+ * Class BehavioursServiceProvider
  *
  * @package    Somnambulist\Doctrine
- * @subpackage Somnambulist\Doctrine\RepositoryServiceProvider
+ * @subpackage Somnambulist\Doctrine\BehavioursServiceProvider
  * @author     Dave Redfern
  */
-class RepositoryServiceProvider extends ServiceProvider
+class BehavioursServiceProvider extends ServiceProvider
 {
 
     /**
@@ -37,7 +37,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([$this->getConfigPath() => config_path('repositories.php'),], 'config');
+        $this->publishes($this->getConfigPaths(), 'config');
     }
 
     /**
@@ -50,6 +50,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->mergeConfig();
 
         $this->registerRepositories();
+        $this->registerCommands();
     }
 
     /**
@@ -103,7 +104,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     protected function mergeConfig()
     {
-        $this->mergeConfigFrom($this->getConfigPath(), 'repositories');
+        $this->mergeConfigFrom($this->getRepositoryConfigPath(), 'doctrine_repositories');
     }
 
     /**
@@ -135,10 +136,39 @@ class RepositoryServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register the CLI commands with console
+     */
+    protected function registerCommands()
+    {
+        $this->commands([
+            Commands\MakeEntityCommand::class,
+        ]);
+    }
+
+    /**
      * @return string
      */
-    protected function getConfigPath()
+    protected function getConfigPaths()
     {
-        return __DIR__ . '/../config/repositories.php';
+        return [
+            $this->getRepositoryConfigPath() => config_path('doctrine_repositories.php'),
+            $this->getBehavioursConfigPath() => config_path('doctrine_behaviours.php'),
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    protected function getRepositoryConfigPath()
+    {
+        return __DIR__ . '/../config/doctrine_repositories.php';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getBehavioursConfigPath()
+    {
+        return __DIR__ . '/../config/doctrine_behaviours.php';
     }
 }

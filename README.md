@@ -223,6 +223,7 @@ In addition to the main behaviours there are several additional contracts / trai
  * Nameable - adds name / getName / setName
  * NumericallySortable - adds orderinal / getOrdinal / setOrdinal
  * Publishable - adds publishedAt / getPublishedAt / setPublishedAt / isPublished / publishAt / unPublish
+ * IdentifiableWithTimestamps - Identifiable, Timestampable
  * Trackable - Identifiable, Nameable, Blamable, Timestampable
  * GloballyTrackable - Identifiable, Nameable, Blamable, Timestampable, UniversallyIdentifiable
 
@@ -234,6 +235,35 @@ CanRenumberCollection interface/trait is included but you may need something mor
 Trackable / GloballyTrackable simply wrap up the other traits / contracts providing a convenient
 way to add everything either as an internal entity (Trackable) or a potentially externally facing
 entity (GloballyTrackable).
+
+## MakeEntityCommand
+
+A helper command has been added for quickly generating the entity stub, repository and a repository
+interface. This command presumes that your app folder structure will follow:
+
+ * app/Contracts/*
+ * app/Repositories/*
+ * app/Support/*
+
+The entity class will be created wherever the classname is set e.g.: App\Entities\MyEntity will be
+created in app/Entities. If your base namespace is e.g: SomeProject\SomeModule, and the entity name
+is SomeProject\SomeModule\Entities\MyEntity, the path will be: app/Entities.
+
+The command will create an AppEntityRepository if it does not already exist.
+
+To use the command, simply add it to the list of commands in your Console/Kernel.php file. Then you can
+call it using:
+
+    php artisan make:entity 'App\Entities\MyEntity'
+
+Optionally you can add various options to add behaviour:
+
+    php artisan make:entity 'App\Entities\MyEntity' -tps
+
+Will make the entity Trackable, Publishable and Sluggable. Not all options can be used together.
+If you select an in-compatible set of options, you will receive an error.
+
+This command can be extended to add other options. Simple override the behaviourOptionMappings
 
 ## Links
 

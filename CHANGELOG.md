@@ -1,6 +1,19 @@
 Change Log
 ==========
 
+2016-07-22
+----------
+
+Added:
+
+ * IdentifiableWithTimestamps
+ * MakeEntity command for building entity stubs + repository
+ 
+BC Breaks:
+
+ * Renamed ServiceProvider class to BehavioursServiceProvider, now loads commands
+ * Renamed repositories config files to doctrine_repositories
+
 2016-04-14
 ----------
 
