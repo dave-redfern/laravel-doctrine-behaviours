@@ -18,6 +18,7 @@
 
 namespace Somnambulist\Doctrine\EventSubscribers;
 
+use Illuminate\Support\Str;
 use Somnambulist\Doctrine\Contracts\Nameable as NameableContract;
 use Somnambulist\Doctrine\Contracts\Sluggable as SluggableContract;
 use Doctrine\Common\EventSubscriber;
@@ -80,7 +81,7 @@ class SluggableEventSubscriber implements EventSubscriber
     {
         if ($entity instanceof SluggableContract && !$entity->getSlug()) {
             if ($entity instanceof NameableContract) {
-                $entity->setSlug(str_slug($entity->getName()));
+                $entity->setSlug(Str::slug($entity->getName()));
 
                 return true;
             }

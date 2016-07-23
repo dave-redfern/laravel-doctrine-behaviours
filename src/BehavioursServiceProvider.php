@@ -18,6 +18,7 @@
 
 namespace Somnambulist\Doctrine;
 
+use Illuminate\Config\Repository;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -49,8 +50,89 @@ class BehavioursServiceProvider extends ServiceProvider
     {
         $this->mergeConfig();
 
-        $this->registerRepositories();
-        $this->registerCommands();
+        $config = $this->app->make('config');
+
+        $this->registerRepositories($config);
+        $this->registerCommands($config);
+    }
+
+
+
+    /**
+     * Merge config
+     */
+    protected function mergeConfig()
+    {
+        $this->mergeConfigFrom($this->getRepositoryConfigPath(), 'doctrine_repositories');
+    }
+
+    /**
+     * Register any bound tenant aware repositories
+     *
+     * @param Repository $config
+     *
+     * @return void
+     */
+    protected function registerRepositories(Repository $config)
+    {
+        foreach ($config->get('doctrine_repositories.repositories', []) as $details) {
+            if (!isset($details['repository']) && !isset($details['entity'])) {
+                throw new \InvalidArgumentException(
+                    sprintf('Failed to process repository data: missing repository/entity from definition')
+                );
+            }
+
+            $this->app->singleton($details['repository'], function ($app) use ($details) {
+                $class = $details['repository'];
+                return new $class($app['em'], $app['em']->getClassMetaData($details['entity']));
+            });
+
+            if (isset($details['alias'])) {
+                $this->app->alias($details['repository'], $details['alias']);
+            }
+            if (isset($details['tags'])) {
+                $this->app->tag($details['repository'], $details['tags']);
+            }
+        }
+    }
+
+    /**
+     * Register the CLI commands with console
+     *
+     * @param Repository $config
+     */
+    protected function registerCommands(Repository $config)
+    {
+        $this->commands([
+            Commands\MakeEntityCommand::class,
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getConfigPaths()
+    {
+        return [
+            $this->getRepositoryConfigPath() => config_path('doctrine_repositories.php'),
+            $this->getBehavioursConfigPath() => config_path('doctrine_behaviours.php'),
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    protected function getRepositoryConfigPath()
+    {
+        return __DIR__ . '/../config/doctrine_repositories.php';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getBehavioursConfigPath()
+    {
+        return __DIR__ . '/../config/doctrine_behaviours.php';
     }
 
     /**
@@ -95,80 +177,5 @@ class BehavioursServiceProvider extends ServiceProvider
             __DIR__ . '/Types/DateType.php',
             __DIR__ . '/Types/TimeType.php',
         ];
-    }
-
-
-
-    /**
-     * Merge config
-     */
-    protected function mergeConfig()
-    {
-        $this->mergeConfigFrom($this->getRepositoryConfigPath(), 'doctrine_repositories');
-    }
-
-    /**
-     * Register any bound tenant aware repositories
-     *
-     * @return void
-     */
-    protected function registerRepositories()
-    {
-        foreach ($this->app->make('config')->get('repositories.repositories', []) as $details) {
-            if (!isset($details['repository']) && !isset($details['entity'])) {
-                throw new \InvalidArgumentException(
-                    sprintf('Failed to process repository data: missing repository/entity from definition')
-                );
-            }
-
-            $this->app->singleton($details['repository'], function ($app) use ($details) {
-                $class = $details['repository'];
-                return new $class($app['em'], $app['em']->getClassMetaData($details['entity']));
-            });
-
-            if (isset($details['alias'])) {
-                $this->app->alias($details['repository'], $details['alias']);
-            }
-            if (isset($details['tags'])) {
-                $this->app->tag($details['repository'], $details['tags']);
-            }
-        }
-    }
-
-    /**
-     * Register the CLI commands with console
-     */
-    protected function registerCommands()
-    {
-        $this->commands([
-            Commands\MakeEntityCommand::class,
-        ]);
-    }
-
-    /**
-     * @return string
-     */
-    protected function getConfigPaths()
-    {
-        return [
-            $this->getRepositoryConfigPath() => config_path('doctrine_repositories.php'),
-            $this->getBehavioursConfigPath() => config_path('doctrine_behaviours.php'),
-        ];
-    }
-
-    /**
-     * @return string
-     */
-    protected function getRepositoryConfigPath()
-    {
-        return __DIR__ . '/../config/doctrine_repositories.php';
-    }
-
-    /**
-     * @return string
-     */
-    protected function getBehavioursConfigPath()
-    {
-        return __DIR__ . '/../config/doctrine_behaviours.php';
     }
 }

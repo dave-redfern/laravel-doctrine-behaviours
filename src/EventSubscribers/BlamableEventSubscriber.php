@@ -18,15 +18,15 @@
 
 namespace Somnambulist\Doctrine\EventSubscribers;
 
-use Somnambulist\Doctrine\Contracts\Blamable as BlamableContract;
-use Somnambulist\Doctrine\Contracts\UniversallyIdentifiable as UuidContract;
+use Illuminate\Contracts\Auth\Guard;
+use Somnambulist\Doctrine\Contracts;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use LaravelDoctrine\ORM\Contracts\Auth\Authenticatable as DoctrineAuthenticableContract;
+use Somnambulist\Doctrine\Contracts\UniversallyIdentifiable;
 
 /**
  * Class BlamableEventSubscriber
@@ -37,6 +37,23 @@ use LaravelDoctrine\ORM\Contracts\Auth\Authenticatable as DoctrineAuthenticableC
  */
 class BlamableEventSubscriber implements EventSubscriber
 {
+
+    /**
+     * @var Guard
+     */
+    protected $guard;
+
+
+
+    /**
+     * Constructor.
+     *
+     * @param Guard $guard
+     */
+    public function __construct(Guard $guard)
+    {
+        $this->guard = $guard;
+    }
 
     /**
      * @return array
@@ -55,7 +72,7 @@ class BlamableEventSubscriber implements EventSubscriber
     public function prePersist(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getEntity();
-        if ($entity instanceof BlamableContract) {
+        if ($entity instanceof Contracts\Blamable) {
             $user = $this->getUpdateByNameFromUser($eventArgs);
 
             $entity->setCreatedBy($user);
@@ -69,7 +86,7 @@ class BlamableEventSubscriber implements EventSubscriber
     public function preUpdate(PreUpdateEventArgs $eventArgs)
     {
         $entity = $eventArgs->getEntity();
-        if ($entity instanceof BlamableContract) {
+        if ($entity instanceof Contracts\Blamable) {
             $entity->setUpdatedBy($this->getUpdateByNameFromUser($eventArgs));
 
             $em = $eventArgs->getEntityManager();
@@ -86,7 +103,7 @@ class BlamableEventSubscriber implements EventSubscriber
      */
     protected function hasCurrentUser()
     {
-        return (null !== auth()->user());
+        return (null !== $this->guard->user());
     }
 
     /**
@@ -102,7 +119,7 @@ class BlamableEventSubscriber implements EventSubscriber
      */
     protected function currentUser()
     {
-        return auth()->user();
+        return $this->guard->user();
     }
 
     /**
@@ -125,7 +142,7 @@ class BlamableEventSubscriber implements EventSubscriber
         $repo       = $eventArgs->getEntityManager()->getRepository($this->getUserClass());
 
         // did not implement standard methods, try and look them up using identifier
-        if ($user instanceof DoctrineAuthenticableContract) {
+        if ($user instanceof AuthenticatableContract) {
             $identifier = $user->getAuthIdentifierName();
         }
 
@@ -161,18 +178,22 @@ class BlamableEventSubscriber implements EventSubscriber
      */
     protected function getNameFromUser($user)
     {
-        if ($user instanceof UuidContract) {
-            return $user->getUuid();
-        }
+        switch (true) {
+            // favour (potentially) unchanging user credentials
+            case $user instanceof Contracts\UniversallyIdentifiable:
+                return $user->getUuid();
 
-        if (method_exists($user, 'getUsername')) {
-            return $user->getUsername();
-        } elseif (method_exists($user, 'getEmail')) {
-            return $user->getEmail();
-        } elseif (method_exists($user, 'getId')) {
-            return $user->getId();
-        }
+            case $user instanceof AuthenticatableContract:
+                return $user->getAuthIdentifier();
 
-        return null;
+            case $user instanceof Contracts\Identifiable:
+                return $user->getId();
+
+            case $user instanceof Contracts\Nameable:
+                return $user->getName();
+
+            default:
+                return null;
+        }
     }
 }
