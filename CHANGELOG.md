@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+2016-07-30
+----------
+
+Changed:
+
+ * Reverted Blamable subscriber changes; causing DI resolution issue as Guard
+   depends on UserProvider service that LaravelDoctrine creates onBoot.
+
 2016-07-22
 ----------
 

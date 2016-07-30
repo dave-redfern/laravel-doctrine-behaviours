@@ -18,7 +18,6 @@
 
 namespace Somnambulist\Doctrine\EventSubscribers;
 
-use Illuminate\Contracts\Auth\Guard;
 use Somnambulist\Doctrine\Contracts;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Util\ClassUtils;
@@ -37,23 +36,6 @@ use Somnambulist\Doctrine\Contracts\UniversallyIdentifiable;
  */
 class BlamableEventSubscriber implements EventSubscriber
 {
-
-    /**
-     * @var Guard
-     */
-    protected $guard;
-
-
-
-    /**
-     * Constructor.
-     *
-     * @param Guard $guard
-     */
-    public function __construct(Guard $guard)
-    {
-        $this->guard = $guard;
-    }
 
     /**
      * @return array
@@ -103,7 +85,7 @@ class BlamableEventSubscriber implements EventSubscriber
      */
     protected function hasCurrentUser()
     {
-        return (null !== $this->guard->user());
+        return (null !== auth()->user());
     }
 
     /**
@@ -119,7 +101,7 @@ class BlamableEventSubscriber implements EventSubscriber
      */
     protected function currentUser()
     {
-        return $this->guard->user();
+        return auth()->user();
     }
 
     /**
