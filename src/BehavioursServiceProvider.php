@@ -63,6 +63,7 @@ class BehavioursServiceProvider extends ServiceProvider
      */
     protected function mergeConfig()
     {
+        $this->mergeConfigFrom($this->getBehavioursConfigPath(), 'doctrine_behaviours');
         $this->mergeConfigFrom($this->getRepositoryConfigPath(), 'doctrine_repositories');
     }
 
