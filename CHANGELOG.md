@@ -1,6 +1,24 @@
 Change Log
 ==========
 
+2016-08-01
+----------
+
+Added:
+
+ * JsonCollectionType: JSON arrays are hydrated to an ArrayCollection instance
+ 
+Changed:
+
+ * Updated readme to reflect changes in 0.4.
+ 
+2016-07-31
+----------
+
+Changed:
+
+ * Fixed config loading for behaviours; was not merging default config.
+
 2016-07-30
 ----------
 

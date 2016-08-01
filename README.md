@@ -37,6 +37,8 @@ To enable the behaviours, add each EventSubscriber to the config/doctrine.php fi
         ]
     ],
 
+ * _Note:_ you only need to add the subscribers you actively want to use.
+
 Then to ensure Carbon is used in your entities, and the following to the types:
 
     'custom_types' => [
@@ -49,17 +51,46 @@ Then to ensure Carbon is used in your entities, and the following to the types:
  * _Note:_ the type overrides are required when using TimestampableEventSubscriber.
  * _Note:_ these behaviours are intended to be used with meta-data files not annotations!
 
-### Repository Service Provider
+#### JsonCollection
+
+To enable the JsonCollectionType, add the following to the custom_types in the doctrine.php:
+
+    'json_collection' => \Somnambulist\Doctrine\Types\JsonCollectionType::class,
+
+This type hydrates a JSON encoded string into an ArrayCollection object instead of a
+standard PHP array. Depending on use case this may be more useful and it allows consistent
+collection handling within your Entity.
+
+To use the JsonCollection, in your mapping files simply set the type to: `json_collection`:
+
+    // simple example
+    Entity:
+        fields:
+            properties:
+                type: json_collection
+
+Then initialise the propoerty in your entities constructor.
+
+ * _Note:_ if the JSON data is empty, an empty ArrayCollection will be used.
+ * _Note:_ this does not replace the standard json_array; you can use both.
+
+### Service Provider
 
 A Laravel service provider is included that allows defining repositories in a config file.
 Add the service provider to your main app.php - **after** the DoctrineServiceProvider.
 
-    \Somnambulist\Doctrine\Providers\RepositoryServiceProvider::class,
+    \Somnambulist\Doctrine\Providers\BehavioursServiceProvider::class,
 
-Simply publish the vendors information, and a new config/repositories.php file will be added
-to your config folder.
+Simply publish the vendors information, and two new config files will be added:
 
-Add the repositories you want automatically binding to the container in this config file.
+ * config/doctrine_behaviours.php
+ * config/doctrine_repositories.php
+
+Behaviours contains settings for the `make:entity` console command that makes it easier to
+add a new entity and repository.
+
+Repositories allows you to configure repositories so they can be type-hinted and resolved
+by the dependency injection container (auto-wiring).
 
 ## Behaviours / Traits
 
@@ -267,6 +298,8 @@ This command can be extended to add other options. Simple override the behaviour
 
 ## Links
 
+ * [Entity Auditing (port of SimpleThings: EntityAudit)](https://github.com/dave-redfern/laravel-doctrine-entity-audit)
+ * [Multi-Tenancy for Laravel with Doctrine](https://github.com/dave-redfern/laravel-doctrine-tenancy)
  * [Laravel Doctrine](http://laraveldoctrine.org)
  * [Laravel](http://laravel.com)
  * [Doctrine](http://doctrine-project.org)
