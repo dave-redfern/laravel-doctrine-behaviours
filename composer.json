@@ -8,7 +8,6 @@
         "laravel-doctrine",
         "behaviours"
     ],
-    "minimum-stability": "dev",
     "license": "MIT",
     "authors": [
         {
@@ -34,7 +33,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~5.4",
-        "illuminate/config": "~5.1",
+        "illuminate/config": "~5.2",
         "mikey179/vfsStream": "~1.6"
     }
 }
