@@ -86,11 +86,22 @@ Simply publish the vendors information, and two new config files will be added:
  * config/doctrine_behaviours.php
  * config/doctrine_repositories.php
 
-Behaviours contains settings for the `make:entity` console command that makes it easier to
-add a new entity and repository.
+Behaviours contains settings for the `make:entity` console command that makes it
+easier to add a new entity and repository.
 
-Repositories allows you to configure repositories so they can be type-hinted and resolved
-by the dependency injection container (auto-wiring).
+Repositories allows you to configure repositories so they can be type-hinted and
+resolved by the dependency injection container (auto-wiring).
+
+The following options are required:
+
+ * repository - the repository class, can be EntityRepository::class
+ * entity     - the class name of the entity the repository is for
+
+The following are optional:
+
+ * alias - a shorter alias e.g. app.user.repository
+ * tags  - any tags to add to the reference in the container e.g. `[ 'repository' ]`
+ * em    - an alternative entity manager that manages this entity e.g. 'my_manager'
 
 ## Behaviours / Traits
 

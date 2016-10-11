@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+2016-10-11
+----------
+
+Changed:
+
+ * Repository config now supports named entity managers in repository definitions
+
 2016-08-01
 ----------
 
@@ -10,6 +17,7 @@ Added:
  
 Changed:
 
+ * Repository config now supports named entity managers in repository definitions
  * Updated readme to reflect changes in 0.4.
  
 2016-07-31

@@ -13,9 +13,10 @@ return [
      *  * repository - the repository class, can be EntityRepository::class
      *  * entity - the class name of the entity the repository is for
      *
-     * The followng are optional:
+     * The following are optional:
      *  * alias - a shorter alias e.g. app.user.repository
      *  * tags - any tags to add to the reference in the container e.g. [ 'repository' ]
+     *  * em - an alternative entity manager that manages this entity e.g. 'my_manager'
      *
      * E.g.:
      *
@@ -24,6 +25,7 @@ return [
      *     'entity'     => App\Entities\Address::class,
      *     'alias'      => 'app.address.repository',
      *     'tags'       => ['repository'],
+     *     'em'         => 'default',
      * ],
      */
     'repositories' => [
