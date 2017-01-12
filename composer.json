@@ -29,7 +29,7 @@
         "php": ">=5.5.9",
         "laravel-doctrine/orm": "1.*",
         "nesbot/carbon": "~1.19",
-        "ramsey/uuid": "3.0.*"
+        "ramsey/uuid": "^3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~5.4",

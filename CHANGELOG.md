@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+2017-01-11
+----------
+
+Changed:
+
+ * Updated dependencies for ramsey/uuid 
+
 2016-10-11
 ----------
 
