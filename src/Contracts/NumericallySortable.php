@@ -38,5 +38,5 @@ interface NumericallySortable
      *
      * @return $this
      */
-    public function setOrdinal($ordinal);
+    public function updateSortingOrder($ordinal);
 }

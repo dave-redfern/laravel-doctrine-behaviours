@@ -38,26 +38,12 @@ trait Blamable
      */
     protected $updatedBy;
 
-
-
     /**
      * @return string
      */
     public function getCreatedBy()
     {
         return $this->createdBy;
-    }
-
-    /**
-     * @param string $createdBy
-     *
-     * @return $this
-     */
-    public function setCreatedBy($createdBy)
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
     }
 
     /**
@@ -69,14 +55,28 @@ trait Blamable
     }
 
     /**
-     * @param string $updatedBy
+     * Initialise the blamable fields
      *
-     * @return $this
+     * @param string $user
+     *
+     * @return void
      */
-    public function setUpdatedBy($updatedBy)
+    public function blameCreator($user)
     {
-        $this->updatedBy = $updatedBy;
+        if (is_null($this->createdBy) && is_null($this->updatedBy)) {
+            $this->createdBy = $this->updatedBy = $user;
+        }
+    }
 
-        return $this;
+    /**
+     * Update the blamable fields with the current user
+     *
+     * @param string $user
+     *
+     * @return void
+     */
+    public function blameUpdater($user)
+    {
+        $this->updatedBy = $user;
     }
 }

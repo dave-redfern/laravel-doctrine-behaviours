@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+2017-02-13
+----------
+
+Changed:
+
+ * Refactored many of the interfaces / traits to remove setters and favour state transitions
+ * Removed SluggableEventSubscriber, UuidEventSubscriber as these should be passed in at construction.
+
 2017-02-03
 ----------
 

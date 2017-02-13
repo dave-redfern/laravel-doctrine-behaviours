@@ -25,7 +25,6 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Somnambulist\Doctrine\Contracts\UniversallyIdentifiable;
 
 /**
  * Class BlamableEventSubscriber
@@ -57,8 +56,7 @@ class BlamableEventSubscriber implements EventSubscriber
         if ($entity instanceof Contracts\Blamable) {
             $user = $this->getUpdateByNameFromUser($eventArgs);
 
-            $entity->setCreatedBy($user);
-            $entity->setUpdatedBy($user);
+            $entity->blameCreator($user);
         }
     }
 
@@ -69,7 +67,7 @@ class BlamableEventSubscriber implements EventSubscriber
     {
         $entity = $eventArgs->getEntity();
         if ($entity instanceof Contracts\Blamable) {
-            $entity->setUpdatedBy($this->getUpdateByNameFromUser($eventArgs));
+            $entity->blameUpdater($this->getUpdateByNameFromUser($eventArgs));
 
             $em = $eventArgs->getEntityManager();
             $em->getUnitOfWork()->recomputeSingleEntityChangeSet(

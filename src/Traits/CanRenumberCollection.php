@@ -42,7 +42,7 @@ trait CanRenumberCollection
 
         foreach ( $collection as $item ) {
             if ( $item instanceof NumericallySortableContract ) {
-                $item->setOrdinal(++$i);
+                $item->updateSortingOrder(++$i);
             }
         }
 

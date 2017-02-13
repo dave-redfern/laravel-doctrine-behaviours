@@ -34,21 +34,25 @@ interface Blamable
     public function getCreatedBy();
 
     /**
-     * @param string $user
-     *
-     * @return $this
-     */
-    public function setCreatedBy($user);
-
-    /**
      * @return string
      */
     public function getUpdatedBy();
 
     /**
+     * Initialise the blamable fields
+     *
      * @param string $user
      *
-     * @return $this
+     * @return void
      */
-    public function setUpdatedBy($user);
+    public function blameCreator($user);
+
+    /**
+     * Update the blamable fields with the current user
+     *
+     * @param string $user
+     *
+     * @return void
+     */
+    public function blameUpdater($user);
 }

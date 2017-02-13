@@ -54,8 +54,7 @@ class TimestampableEventSubscriber implements EventSubscriber
     {
         $entity = $eventArgs->getEntity();
         if ($entity instanceof TimestampableContract) {
-            $entity->setCreatedAt(Carbon::now());
-            $entity->setUpdatedAt(Carbon::now());
+            $entity->initializeTimestamps();
         }
     }
 
@@ -66,7 +65,7 @@ class TimestampableEventSubscriber implements EventSubscriber
     {
         $entity = $eventArgs->getEntity();
         if ($entity instanceof TimestampableContract) {
-            $entity->setUpdatedAt(Carbon::now());
+            $entity->updateTimestamps();
 
             $em = $eventArgs->getEntityManager();
             $em->getUnitOfWork()->recomputeSingleEntityChangeSet(

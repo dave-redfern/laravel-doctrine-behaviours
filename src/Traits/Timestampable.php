@@ -40,26 +40,12 @@ trait Timestampable
      */
     protected $updatedAt;
 
-
-
     /**
      * @return Carbon
      */
     public function getCreatedAt()
     {
         return $this->createdAt;
-    }
-
-    /**
-     * @param Carbon $createdAt
-     *
-     * @return $this
-     */
-    public function setCreatedAt(Carbon $createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     /**
@@ -71,14 +57,21 @@ trait Timestampable
     }
 
     /**
-     * @param Carbon $updatedAt
-     *
-     * @return $this
+     * Initialises the timestamp properties
      */
-    public function setUpdatedAt(Carbon $updatedAt)
+    public function initializeTimestamps()
     {
-        $this->updatedAt = $updatedAt;
+        if (is_null($this->createdAt) && is_null($this->updatedAt)) {
+            $this->createdAt = Carbon::now();
+            $this->updatedAt = Carbon::now();
+        }
+    }
 
-        return $this;
+    /**
+     * Updates the updatedAt property
+     */
+    public function updateTimestamps()
+    {
+        $this->updatedAt = Carbon::now();
     }
 }

@@ -32,11 +32,4 @@ interface Sluggable
      * @return string
      */
     public function getSlug();
-
-    /**
-     * @param string $slug
-     *
-     * @return $this
-     */
-    public function setSlug($slug);
 }

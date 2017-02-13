@@ -46,7 +46,7 @@ trait NumericallySortable
      *
      * @return $this
      */
-    public function setOrdinal($ordinal)
+    public function updateSortingOrder($ordinal)
     {
         $this->ordinal = $ordinal;
 

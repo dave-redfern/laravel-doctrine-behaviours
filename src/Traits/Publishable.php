@@ -36,7 +36,6 @@ trait Publishable
      */
     protected $publishedAt;
 
-
     /**
      * @return boolean
      */
@@ -46,11 +45,13 @@ trait Publishable
     }
 
     /**
+     * @param null|Carbon $date
+     *
      * @return $this
      */
     public function publishAt(Carbon $date = null)
     {
-        $this->setPublishedAt((null === $date ? Carbon::now() : $date));
+        $this->publishedAt = (null === $date ? Carbon::now() : $date);
 
         return $this;
     }
@@ -71,17 +72,5 @@ trait Publishable
     public function getPublishedAt()
     {
         return $this->publishedAt;
-    }
-
-    /**
-     * @param null|Carbon $publishedAt
-     *
-     * @return $this
-     */
-    public function setPublishedAt(Carbon $publishedAt = null)
-    {
-        $this->publishedAt = $publishedAt;
-
-        return $this;
     }
 }

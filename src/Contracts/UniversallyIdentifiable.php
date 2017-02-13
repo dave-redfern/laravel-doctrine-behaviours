@@ -32,11 +32,4 @@ interface UniversallyIdentifiable
      * @return string
      */
     public function getUuid();
-
-    /**
-     * @param string $uuid
-     *
-     * @return $this
-     */
-    public function setUuid($uuid);
 }

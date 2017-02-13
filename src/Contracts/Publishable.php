@@ -55,11 +55,4 @@ interface Publishable
      * @return Carbon
      */
     public function getPublishedAt();
-
-    /**
-     * @param Carbon $publishedAt
-     *
-     * @return $this
-     */
-    public function setPublishedAt(Carbon $publishedAt = null);
 }

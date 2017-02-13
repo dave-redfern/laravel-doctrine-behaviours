@@ -40,16 +40,4 @@ trait Sluggable
     {
         return $this->slug;
     }
-
-    /**
-     * @param string $slug
-     *
-     * @return $this
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
 }

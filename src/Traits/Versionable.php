@@ -31,7 +31,7 @@ trait Versionable
     /**
      * @var integer
      */
-    protected $version = 1;
+    protected $version = 0;
 
     /**
      * @return integer
@@ -39,18 +39,6 @@ trait Versionable
     public function getVersion()
     {
         return $this->version;
-    }
-
-    /**
-     * @param integer $version
-     *
-     * @return $this
-     */
-    public function setVersion($version)
-    {
-        $this->version = $version;
-
-        return $this;
     }
 
     /**

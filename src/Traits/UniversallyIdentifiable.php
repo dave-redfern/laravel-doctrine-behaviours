@@ -35,29 +35,11 @@ trait UniversallyIdentifiable
      */
     protected $uuid;
 
-
-
     /**
      * @return string
      */
     public function getUuid()
     {
         return $this->uuid;
-    }
-
-    /**
-     * @param string $uuid
-     *
-     * @return $this
-     */
-    public function setUuid($uuid)
-    {
-        if (!Uuid::isValid($uuid)) {
-            throw new \InvalidArgumentException(sprintf('"%s" is not a valid UUID', $uuid));
-        }
-
-        $this->uuid = $uuid;
-
-        return $this;
     }
 }

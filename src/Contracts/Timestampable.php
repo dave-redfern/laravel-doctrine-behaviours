@@ -36,21 +36,21 @@ interface Timestampable
     public function getCreatedAt();
 
     /**
-     * @param Carbon $datetime
-     *
-     * @return $this
-     */
-    public function setCreatedAt(Carbon $datetime);
-
-    /**
      * @return Carbon
      */
     public function getUpdatedAt();
 
     /**
-     * @param Carbon $datetime
+     * Initialise timestamp records
      *
-     * @return $this
+     * @return void
      */
-    public function setUpdatedAt(Carbon $datetime);
+    public function initializeTimestamps();
+
+    /**
+     * Updates timestamps on entity flush
+     *
+     * @return void
+     */
+    public function updateTimestamps();
 }

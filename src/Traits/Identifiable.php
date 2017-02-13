@@ -33,8 +33,6 @@ trait Identifiable
      */
     protected $id;
 
-
-
     /**
      * @return integer
      */

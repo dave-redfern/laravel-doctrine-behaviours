@@ -34,13 +34,6 @@ interface Versionable
     public function getVersion();
 
     /**
-     * @param integer $version
-     *
-     * @return $this
-     */
-    public function setVersion($version);
-
-    /**
      * @return $this
      */
     public function incrementVersion();

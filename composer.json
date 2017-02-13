@@ -25,8 +25,12 @@
             "Somnambulist\\Tests\\Doctrine\\": "tests/"
         }
     },
+    "suggest": {
+        "ramsey/uuid-doctrine": "Allows using UUID objects in Doctrine entities.",
+        "somnambulist/laravel-doctrine-entity-audit": "Full auditing for tracking changes to entity (based on SimpleThings EntityAudit bundle)."
+    },
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=5.6.4",
         "laravel-doctrine/orm": "1.*",
         "nesbot/carbon": "~1.19",
         "ramsey/uuid": "~3.0"

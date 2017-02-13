@@ -53,7 +53,7 @@ class VersionableEventSubscriber implements EventSubscriber
     {
         $entity = $eventArgs->getEntity();
         if ($entity instanceof VersionableContract && !$entity->getVersion() < 1) {
-            $entity->setVersion(1);
+            $entity->incrementVersion();
         }
     }
 
