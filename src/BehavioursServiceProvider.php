@@ -78,29 +78,26 @@ class BehavioursServiceProvider extends ServiceProvider
      */
     protected function registerRepositories(Repository $config)
     {
-        $this->app->afterResolving('registry', function (ManagerRegistry $registry, Container $container) use ($config) {
-            foreach ($config->get('doctrine_repositories.repositories', []) as $details) {
-                if (!isset($details['repository']) && !isset($details['entity'])) {
-                    throw new \InvalidArgumentException(
-                        sprintf('Failed to process repository data: missing repository/entity from definition')
-                    );
-                }
-
-                $this->app->singleton($details['repository'], function ($app) use ($details, $registry) {
-                    $class = $details['repository'];
-                    $em    = isset($details['em']) ? $registry->getManager($details['em']) : $registry->getManager();
-
-                    return new $class($em, $em->getClassMetaData($details['entity']));
-                });
-
-                if (isset($details['alias'])) {
-                    $this->app->alias($details['repository'], $details['alias']);
-                }
-                if (isset($details['tags'])) {
-                    $this->app->tag($details['repository'], $details['tags']);
-                }
+        foreach ($config->get('doctrine_repositories.repositories', []) as $details) {
+            if (!isset($details['repository']) && !isset($details['entity'])) {
+                throw new \InvalidArgumentException(
+                    sprintf('Failed to process repository data: missing repository/entity from definition')
+                );
             }
-        });
+            $this->app->bind($details['repository'], function ($app) use ($details) {
+                $class = $details['repository'];
+                $em    = $app['em'];
+
+                return new $class($em, $em->getClassMetaData($details['entity']));
+            });
+
+            if (isset($details['alias'])) {
+                $this->app->alias($details['repository'], $details['alias']);
+            }
+            if (isset($details['tags'])) {
+                $this->app->tag($details['repository'], $details['tags']);
+            }
+        }
     }
 
     /**
