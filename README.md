@@ -1,3 +1,8 @@
+# Replaced with https://github.com/dave-redfern/somnambulist-domain
+
+This project has been replaced with a generic domain library that combines several packages into one
+for easier maintenace. Please note that many of these behaviours have since been removed entirely.
+
 ## Behaviours for Laravel-Doctrine ORM
 
 Adds some very common traits, contracts and event subscribers that can be used with the Laravel-Doctrine ORM
